@@ -1,23 +1,29 @@
 <template>
   <div id="app">
+    <div class="reach">
+
+    </div>
     <!-- <router-link to="/">aaa</router-link>
     <router-link to="About">bbb</router-link> -->
-    <van-tabs v-model="dropdownValue">
-      <van-tab
-        v-for="item in Channel"
-        :title="item.text"
-        :to="`about?query=` + item.channelvalue"
-        :key="item.num"
-      >
-      </van-tab>
-    </van-tabs>
-    <van-dropdown-menu>
-      <van-dropdown-item
-        @change="dropdownClickFn"
-        v-model="dropdownValue"
-        :options="Channel"
-      />
-    </van-dropdown-menu>
+    <div v-show="$route.meta.isShowNav" class="top">
+      <van-tabs v-model="dropdownValue">
+        <van-tab
+          v-for="item in Channel"
+          :title="item.text"
+          :to="`about?query=` + item.channelvalue"
+          :key="item.num"
+        >
+        </van-tab>
+      </van-tabs>
+      <van-dropdown-menu>
+        <van-dropdown-item
+          @change="dropdownClickFn"
+          v-model="dropdownValue"
+          :options="Channel"
+        />
+      </van-dropdown-menu>
+    </div>
+
     <keep-alive>
       <router-view></router-view>
     </keep-alive>

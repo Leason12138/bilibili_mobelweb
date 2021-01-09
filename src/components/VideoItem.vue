@@ -1,7 +1,7 @@
-<template> 
-  <div class="VideoItem" @click="$emit('videoitemClickFn',item.bvid)">
+<template>
+  <div class="VideoItem" @click="$emit('videoitemClickFn', item.bvid)">
     <div class="pic">
-      <img v-lazy="item.pic" :key="item.bvid" alt="" />
+      <img :src="item.pic" :key="item.bvid" alt="" />
     </div>
     <p class="title">
       {{ item.title }}
@@ -12,8 +12,7 @@
 <script>
 export default {
   props: ["item"],
-  created(){
-  }
+  created() {},
 };
 </script>
 
@@ -23,12 +22,16 @@ export default {
   max-width: 260px;
   .pic {
     width: 100%;
-    height: 29vw;
+    height: 30vw;
     background-color: darkgray;
     overflow: hidden;
+    position: relative;
     img {
-      width: auto;
-      height: 100%;
+      width: 100%;
+      height: auto;
+      position: absolute;
+      top: 50%;
+      transform: translateY(-50%) scale(1.1);
       display: block;
     }
   }
