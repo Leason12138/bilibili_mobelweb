@@ -23,11 +23,12 @@ export default {
   },
   methods: {
     videoitemClickFn(a) {
-      console.log(a);
-      
+      // console.log(a);
+      // VideoMian
+      this.$router.push(`VideoMian?bvid=${a}`);
     },
     getshowdata(n) {
-      let source = `http://api.bilibili.com/x/web-interface/ranking/region?rid=${n.query.query}`;
+      let source = `api.bilibili.com/x/web-interface/ranking/region?rid=${n.query.query}`;
       //  n.query
       if (this.$route.query.query == 0) {
         this.showdata = this.$store.state.homedata;
@@ -36,16 +37,18 @@ export default {
         this.axios.get(source).then((res) => {
           this.showdata = res.data.data;
           // console.log(res.data.data);
-          console.log(this.showdata);
+          // console.log(this.showdata);
         });
       }
     },
   },
   watch: {
     $route: function (n) {
-      console.log(n);
+      // console.log(n);
       this.showdata = [];
-      this.getshowdata(n);
+      if (n.query.query) {
+        this.getshowdata(n);
+      }
     },
   },
   created() {
