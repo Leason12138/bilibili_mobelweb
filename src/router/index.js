@@ -6,7 +6,7 @@ Vue.use(VueRouter)
 
 const routes = [{
         path: '/',
-        name: 'Home',
+        name: 'About',
         component: Home,
         meta: { isShowNav: true },
     },
@@ -19,6 +19,27 @@ const routes = [{
         component: () =>
             import ( /* webpackChunkName: "about" */ '../views/About.vue'),
         meta: { isShowNav: true },
+
+    },
+    {
+        path: '/Sreach',
+        name: 'Sreach',
+        // route level code-splitting
+        // this generates a separate chunk (Sreach.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "Sreach" */ '../views/Sreach.vue'),
+        meta: { isShowSreach: true },
+
+    },
+    {
+        path: '/New',
+        name: 'New',
+        // route level code-splitting
+        // this generates a separate chunk (New.[hash].js) for this route
+        // which is lazy-loaded when the route is visited.
+        component: () =>
+            import ( /* webpackChunkName: "New" */ '../views/New.vue'),
 
     },
     {

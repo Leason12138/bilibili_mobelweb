@@ -1,12 +1,35 @@
 <template>
   <div id="app">
-    <div class="reach">
-
+    <div class="sreach" v-show="!$route.meta.isShowSreach">
+      <div class="tohome" @click="tohome"></div>
+      <div class="searchbtn">
+        <div></div>
+        <van-icon
+          @click="toSreachComp"
+          class="schbtn"
+          size="30px"
+          color="#aaa"
+          name="search"
+        />
+      </div>
+      <van-button
+        color="#fb7299"
+        class="downloadbtn"
+        url="http://d.bilibili.com/download_app.html?preUrl=http%3A%2F%2Fm.bilibili.com%2Findex.html&schema=bilibili%3A%2F%2Fhome%3Ftab_name%3D%E7%83%AD%E9%97%A8&h5awaken=cHZpZD1CMkY5MTYzQy0yQTkyLTQ3MTEtODBGNi1EMTkyOTI5REJCMzk1Mzk0MGluZm9jXzBfMTYxMDM0NzEzNTIyMiZ1YT1Nb3ppbGxhJTJGNS4wJTIwKGlQaG9uZSUzQiUyMENQVSUyMGlQaG9uZSUyME9TJTIwMTNfMl8zJTIwbGlrZSUyME1hYyUyME9TJTIwWCklMjBBcHBsZVdlYktpdCUyRjYwNS4xLjE1JTIwKEtIVE1MJTJDJTIwbGlrZSUyMEdlY2tvKSUyMFZlcnNpb24lMkYxMy4wLjMlMjBNb2JpbGUlMkYxNUUxNDglMjBTYWZhcmklMkY2MDQuMSUyMEVkZyUyRjg3LjAuNDI4MC4xNDEmaXNBdXRvT3Blbj1mYWxzZSZic291cmNlPXVuZGVmaW5lZCYmb3Blbl9hcHBfZnJvbV90eXBlPWg1Jm9wZW5fYXBwX3V1aWQ9QTU1ODcwQkMtRjU2NS1BQUNELTgxNTgtOTZENTRDRjRBMjJENjgwNzdpbmZvYyZvcGVuX2FwcF9ncm91cGlkPSU3QiU3RCZvcGVuX2FwcF91cmw9aHR0cHMlM0ElMkYlMkZtLmJpbGliaWxpLmNvbSUyRiZvcGVuX2FwcF9hZGRpdGlvbj0lN0IlMjJzcG1pZCUyMiUzQSUyMjMzMy40MDAuY2xpY2sudG9wRG93bmxvYWQlMjIlMkMlMjJncm91cF9pZCUyMiUzQTExJTJDJTIyYnNvdXJjZSUyMiUzQSUyMmRlZmF1bHQlMjIlMkMlMjJ1bmlxdWVfayUyMiUzQW51bGwlMkMlMjJzZXNzaW9uSWQlMjIlM0ElMjJsajRoY2o4Y2owZyUyMiUyQyUyMnVhU291cmNlJTIyJTNBJTIyJTIyJTdE"
+        type="default"
+        >下载bilibili</van-button
+      >
     </div>
     <!-- <router-link to="/">aaa</router-link>
     <router-link to="About">bbb</router-link> -->
+
     <div v-show="$route.meta.isShowNav" class="top">
-      <van-tabs v-model="dropdownValue">
+      <van-tabs
+        color="#fb7299"
+        title-active-color="#fb7299"
+        class="tabsbar"
+        v-model="dropdownValue"
+      >
         <van-tab
           v-for="item in Channel"
           :title="item.text"
@@ -15,12 +38,15 @@
         >
         </van-tab>
       </van-tabs>
-      <van-dropdown-menu>
+
+      <van-dropdown-menu active-color="#fb7299" :class="{ dropdown: 1 }">
         <van-dropdown-item
+          ref="xxx"
           @change="dropdownClickFn"
           v-model="dropdownValue"
           :options="Channel"
-        />
+        >
+        </van-dropdown-item>
       </van-dropdown-menu>
     </div>
 
@@ -36,6 +62,7 @@ export default {
   components: {},
   data: function () {
     return {
+      openedbool: false,
       dropdownValue: "",
       dropdownValuetext: "",
       asdasdChannel: [
@@ -62,27 +89,24 @@ export default {
         { text: "tv", value: 11 },
       ],
       Channel: [
-        { value: 0, text: "home", channelvalue: 0 },
-        { value: 1, text: "dougaL", channelvalue: 1 },
-        // 动画
-        { value: 2, text: "anime", channelvalue: 13 },
-        { value: 3, text: "guochang", channelvalue: 167 },
-        { value: 4, text: "music", channelvalue: 3 },
-        { value: 5, text: "dance", channelvalue: 129 },
-        { value: 6, text: "game", channelvalue: 4 },
-        { value: 7, text: "technology", channelvalue: 36 },
-        { value: 8, text: "digital", channelvalue: 188 },
-        { value: 9, text: "life", channelvalue: 160 },
-        { value: 10, text: "food", channelvalue: 211 },
-        { value: 11, text: "kichiku", channelvalue: 119 },
-        { value: 12, text: "fashion", channelvalue: 155 },
-        { value: 13, text: "information", channelvalue: 202 },
-        { value: 14, text: "ent", channelvalue: 5 },
-        // 乐
-        { value: 15, text: "cinephile", channelvalue: 181 },
-        { value: 16, text: "documentary", channelvalue: 177 },
-        { value: 17, text: "movie", channelvalue: 23 },
-        { value: 18, text: "tv", channelvalue: 11 },
+        { value: 0, text: "首页", channelvalue: 0 },
+        { value: 1, text: "动画", channelvalue: 1 },
+        { value: 2, text: "番剧", channelvalue: 13 },
+        { value: 3, text: "国创", channelvalue: 167 },
+        { value: 4, text: "音乐", channelvalue: 3 },
+        { value: 5, text: "舞蹈", channelvalue: 129 },
+        { value: 6, text: "游戏", channelvalue: 4 },
+        { value: 7, text: "知识", channelvalue: 36 },
+        { value: 8, text: "数码", channelvalue: 188 },
+        { value: 9, text: "生活", channelvalue: 160 },
+        { value: 10, text: "美食", channelvalue: 211 },
+        { value: 11, text: "鬼畜", channelvalue: 119 },
+        { value: 12, text: "时尚", channelvalue: 155 },
+        { value: 13, text: "娱乐", channelvalue: 5 },
+        { value: 14, text: "影视", channelvalue: 181 },
+        { value: 15, text: "纪录片", channelvalue: 177 },
+        { value: 16, text: "电影", channelvalue: 23 },
+        { value: 17, text: "电视", channelvalue: 11 },
       ],
       homedata: [
         {
@@ -818,6 +842,33 @@ export default {
     };
   },
   methods: {
+    tohome() {
+      if (this.$route.query.query != 0) {
+        this.$router.push("/about?query=0");
+      }
+    },
+    toSreachComp() {
+      this.$router.push("/Sreach");
+    },
+    // vclickfn() {
+    //   console.log(111);
+
+      // console.dir(document.querySelector(".dropdown .van-dropdown-menu__bar ").classList.add('van-dropdown-menu__bar--opened'));
+
+      // document.querySelector("body").classList.toggle("van-overflow-hidden");
+      // //
+
+      // console.dir(
+      //   document
+      //     .querySelector(".dropdown span")
+      //     .classList.add(
+      //       "van-dropdown-menu__title--active","van-dropdown-menu__title--down"
+      //     )
+      // );
+
+    //   this.$refs.xxx.toggle();
+
+    // },
     dropdownClickFn() {
       // console.log(1111);
       // console.log(this);
@@ -828,6 +879,8 @@ export default {
     getbilibilihomedatainbilibiliweb() {
       // $$(".v-card").map((item, index) => {
       //   return {
+      //     play:$$(".v-card>.card>span")[0].innerText,
+      //     video_review:$$(".v-card>.card>span")[1].innerText,
       //     bvid: item.href.slice(29),
       //     title: item.innerText,
       //     viewAndCommentCount: $$(".v-card>.card>.count").filter(
@@ -854,13 +907,65 @@ export default {
 };
 </script>
 
-<style>
+<style lang='scss' spoed>
 #app {
   font-family: "Avenir", Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  margin-top: 60px;
+}
+.van-tabs__line {
+  background-color: rgb(251, 114, 153);
+  transform: translateX(34px) translateX(-50%);
+  transition-duration: 0.3s;
+}
+.sreach {
+  padding: 10px;
+  word-spacing: 5px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  height: 10vw;
+  .searchbtn {
+    width: 40vw;
+    height: 20px;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+  }
+  .tohome {
+    width: 20vw;
+    height: 10vw;
+    background-image: url("./assets/BILIBILI_LOGO.png");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+  .downloadbtn {
+    font-size: 3vw;
+    width: 20vw;
+    min-width: 80px;
+    height: 80%;
+    overflow: hidden;
+    border-radius: 5px;
+    padding: 0 7px;
+  }
+}
+.top {
+  display: flex;
+  justify-content: center;
+  width: 100vw;
+  overflow: hidden;
+  .tabsbar .van-tabs__nav {
+    width: 78vw;
+    margin: 0;
+    .van-tab {
+    }
+  }
+  .dropdown {
+    width: 22vw;
+    padding: 0;
+    margin: 0;
+  }
 }
 </style>

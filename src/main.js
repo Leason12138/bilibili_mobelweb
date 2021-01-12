@@ -5,10 +5,12 @@ import router from './router'
 import store from './store'
 import './plugins/vant.js'
 import VueLazyload from 'vue-lazyload'
-
-Vue.use(VueLazyload)
+import { DropdownMenu, DropdownItem } from 'vant';
 
 // with options
+Vue.use(DropdownMenu);
+Vue.use(DropdownItem);
+Vue.use(VueLazyload)
 Vue.use(VueLazyload, {
     preLoad: 1.3,
     error: 'dist/error.png',

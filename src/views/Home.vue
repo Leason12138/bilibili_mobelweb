@@ -1,8 +1,12 @@
 <template>
-  <div class="home">
-
+  <div class="about">
     <div class="itembox" v-if="showdata">
-      <VideoItem v-for="(item, index) in showdata" :item="item" :key="index">
+      <VideoItem
+        @videoitemClickFn="videoitemClickFn"
+        v-for="(item, index) in showdata"
+        :item="item"
+        :key="index"
+      >
       </VideoItem>
     </div>
   </div>
@@ -18,36 +22,40 @@ export default {
     };
   },
   methods: {
+    videoitemClickFn(a) {
+      // console.log(a);
+      // VideoMian
+      this.$router.push(`VideoMian?bvid=${a}`);
+    },
     getshowdata() {
-    
-      //  n.query
-    
+      
         this.showdata = this.$store.state.homedata;
-  
-      }
-    
+        // console.log(this.showdata);
+      
+    },
   },
   watch: {
     $route: function (n) {
-      console.log(n);
+      // console.log(n);
       this.showdata = [];
-      this.getshowdata(n);
+      if (n.query.query) {
+        this.getshowdata(n);
+      }
     },
   },
   created() {
     this.getshowdata(this.$route);
-    
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.home{
- .itembox{
+.about {
+  .itembox {
     display: flex;
-  flex-direction: row;
-  justify-content: space-around;
-  flex-wrap: wrap;
- }
+    flex-direction: row;
+    justify-content: space-around;
+    flex-wrap: wrap;
+  }
 }
 </style>

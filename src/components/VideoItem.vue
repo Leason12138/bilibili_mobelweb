@@ -2,6 +2,42 @@
   <div class="VideoItem" @click="$emit('videoitemClickFn', item.bvid)">
     <div class="pic">
       <img :src="item.pic" :key="item.bvid" alt="" />
+      <div class="imgbar">
+        <span v-if="item.play">
+          <van-icon name="play-circle-o" />
+          {{
+            item.play > 10000
+              ? (item.play / 10000).toFixed(1) + "万"
+              : item.play
+          }}
+          <!-- ? (Number(item.play)/ 10000).tofided(1) : item.play -->
+        </span>
+        <span v-else>
+          <van-icon name="play-circle-o" />
+          {{
+            item.stat.view > 10000
+              ? (item.stat.view / 10000).toFixed(1) + "万"
+              : item.stat.view
+          }}
+          <!-- ? (Number(item.play)/ 10000).tofided(1) : item.play -->
+        </span>
+        <span v-if="item.video_review">
+          <van-icon name="comment-o" />
+          {{
+            item.video_review > 10000
+              ? (item.video_review / 10000).toFixed(1) + "万"
+              : item.video_review
+          }}
+        </span>
+        <span v-else>
+          <van-icon name="comment-o" />
+          {{
+            item.stat.danmaku > 10000
+              ? (item.stat.danmaku / 10000).toFixed(1) + "万"
+              : item.stat.danmaku
+          }}
+        </span>
+      </div>
     </div>
     <p class="title">
       {{ item.title }}
@@ -18,14 +54,15 @@ export default {
 
 <style lang="scss" scoped>
 .VideoItem {
-  width: 48vw;
+  width: 46vw;
   max-width: 260px;
   .pic {
     width: 100%;
-    height: 30vw;
+    height: 28vw;
     background-color: darkgray;
     overflow: hidden;
     position: relative;
+    border-radius: 5px;
     img {
       width: 100%;
       height: auto;
@@ -33,6 +70,20 @@ export default {
       top: 50%;
       transform: translateY(-50%) scale(1.1);
       display: block;
+    }
+    .imgbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-end;
+      padding: 0 2%;
+      color: #fff;
+      font-size: 14px;
+      position: absolute;
+      bottom: 0;
+      z-index: 1;
+      width: 95%;
+      background-image: linear-gradient(to top, #000000dd, transparent);
+      height: 32px;
     }
   }
   .title {
