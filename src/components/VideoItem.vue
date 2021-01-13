@@ -31,11 +31,7 @@
         </span>
         <span v-else>
           <van-icon name="comment-o" />
-          {{
-            item.stat.danmaku > 10000
-              ? (item.stat.danmaku / 10000).toFixed(1) + "万"
-              : item.stat.danmaku
-          }}
+         
         </span>
       </div>
     </div>
@@ -75,7 +71,7 @@ export default {
       display: flex;
       justify-content: space-between;
       align-items: flex-end;
-      padding: 0 2%;
+      padding: 3% 2%;
       color: #fff;
       font-size: 14px;
       position: absolute;
@@ -83,7 +79,7 @@ export default {
       z-index: 1;
       width: 95%;
       background-image: linear-gradient(to top, #000000dd, transparent);
-      height: 32px;
+      height: 20px;
     }
   }
   .title {

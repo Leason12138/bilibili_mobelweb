@@ -1,68 +1,65 @@
 <template>
   <div class="about">
-    <div v-if="$route.query.query!=0">
-      <van-tabs v-model="active">
-        <van-tab title="标签 1">内容 1</van-tab>
-        <van-tab title="标签 2">内容 2</van-tab>
-        <van-tab title="标签 3">内容 3</van-tab>
-        <van-tab title="标签 4">内容 4</van-tab>
+    <div v-if="$route.query.query != 0">
+      <van-tabs color="#fb7299" title-active-color="#fb7299" v-model="active">
+        <van-tab title="推荐">
+          <div class="itembox" v-if="showdata">
+            <div style="width: 100vw; text-align: left">推荐视频</div>
+            <VideoItem
+              @videoitemClickFn="videoitemClickFn"
+              v-for="(item, index) in showdata.slice(0, 4)"
+              :item="item"
+              :key="index"
+            >
+            </VideoItem>
+          </div>
+          <div>
+            <ClassList
+              :item="item"
+              v-for="(item, index) in classdata[$route.query.query]"
+              :key="index"
+            >
+            </ClassList>
+          </div>
+        </van-tab>
+        <van-tab
+          v-for="(item, index) in classdata[$route.query.query]"
+          :title="classdata[$route.query.query][index].text"
+          :key="index"
+        >
+          <WithOutCommend :item="item"></WithOutCommend>
+        </van-tab>
       </van-tabs>
     </div>
-    <div class="itembox" v-if="showdata">
-      <VideoItem
-        @videoitemClickFn="videoitemClickFn"
-        v-for="(item, index) in showdata"
-        :item="item"
-        :key="index"
-      >
-      </VideoItem>
+    <div v-else>
+      <div class="itembox" v-if="showdata">
+        <VideoItem
+          @videoitemClickFn="videoitemClickFn"
+          v-for="(item, index) in showdata"
+          :item="item"
+          :key="index"
+        >
+        </VideoItem>
+      </div>
     </div>
-
-    
   </div>
 </template>
 
 <script>
 import VideoItem from "../components/VideoItem";
+import ClassList from "../components/ClassList";
+import WithOutCommend from "../components/WithOutCommend";
 export default {
-  components: { VideoItem },
+  components: { VideoItem, ClassList, WithOutCommend },
   data: function () {
     return {
       showdata: [],
-      active:'',
-      classdata: {
-        0: {},
-        1: [
-          { value: 1, text: "MAD·AMV", classvalue: 24 },
-          { value: 2, text: "MMD·3D", classvalue: 25 },
-          { value: 3, text: "短片·手书·配音", classvalue: 47 },
-          { value: 4, text: "特摄", classvalue: 86 },
-          { value: 5, text: "综合", classvalue: 27 },
-        ],
-        13: {},
-        3: {},
-        4: {},
-        5: {},
-        6: {},
-        7: {},
-        8: {},
-        9: {},
-        10: {},
-        11: {},
-        12: {},
-        14: {},
-        15: {},
-        16: {},
-        17: {},
-        18: {},
-        // 18
-      },
+      active: "",
+      classdata: [],
     };
   },
   methods: {
     videoitemClickFn(a) {
-      // console.log(a);
-      // VideoMian
       this.$router.push(`VideoMian?bvid=${a}`);
     },
     getshowdata(n) {
@@ -74,32 +71,22 @@ export default {
       } else {
         this.axios.get(source).then((res) => {
           this.showdata = res.data.data;
-          // console.log(res.data.data);
-          // console.log(this.showdata);
         });
       }
     },
-    // ajaxtest() {
-    //   let source = `api/x/web-interface/ranking/region?rid=25`;
-
-    //   this.axios.get(source).then((res) => {
-    //     // this.showdata = res.data.data;
-    //     console.log("ajaxtest", res);
-    //     // console.log(this.showdata);
-    //   });
-    // },
   },
   watch: {
     $route: function (n) {
       // console.log(n);
+      this.active = 0;
       this.showdata = [];
       if (n.query.query) {
         this.getshowdata(n);
-        // this.ajaxtest();
       }
     },
   },
   created() {
+    this.classdata = this.$store.state.classdata;
     this.getshowdata(this.$route);
   },
 };
@@ -107,6 +94,8 @@ export default {
 
 <style lang="scss" scoped>
 .about {
+  width: 96vw;
+  overflow: hidden;
   padding: 1vw;
   .itembox {
     display: flex;

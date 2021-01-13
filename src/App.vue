@@ -959,8 +959,7 @@ export default {
   .tabsbar .van-tabs__nav {
     width: 78vw;
     margin: 0;
-    .van-tab {
-    }
+   
   }
   .dropdown {
     width: 22vw;
