@@ -1,5 +1,6 @@
 <template >
-  <div class="DetailVideoItem">
+  <div class="DetailVideoItem" 
+  @click="videoitemClickFn(item.bvid)">
     <div class="pic">
       <img class="anto-img" :src="item.pic" alt="" />
       <span> {{ item.duration }} </span>
@@ -38,6 +39,11 @@
 <script>
 export default {
   props: ["item"],
+  methods: {
+    videoitemClickFn(a) {
+      this.$router.push(`VideoMian?bvid=${a}`);
+    },
+  },
 };
 </script>
 

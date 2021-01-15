@@ -1,5 +1,5 @@
 <template>
-  <div class="mediaftitem">
+  <div class="mediaftitem" @click="videoitemClickFn(item.goto_url)">
     <div class="pic">
       <img class="anto-img" :src="item.cover" alt="" />
     </div>
@@ -21,6 +21,12 @@
 <script>
 export default {
   props: ["item"],
+    methods: {
+    videoitemClickFn(a) {
+            window.location.href = a
+
+    },
+  },
 };
 </script>
 

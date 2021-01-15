@@ -1,5 +1,5 @@
 <template>
-  <div class="mediabangumitem">
+  <div class="mediabangumitem" @click="videoitemClickFn(item.goto_url)">
     <div class="pic">
       <img class="auto-img" :src="item.cover" alt="" />
     </div>
@@ -18,6 +18,12 @@
 <script>
 export default {
   props: ["item"],
+  methods: {
+    videoitemClickFn(a) {
+        window.location.href = a
+      // this.$router.push(`VideoMian?bvid=${a}`);
+    },
+  },
 };
 </script>
 
@@ -25,7 +31,7 @@ export default {
 .mediabangumitem {
   width: 100vw;
   font-size: 14px;
-  
+
   display: flex;
   justify-content: space-around;
   margin: 26px 0;
@@ -46,7 +52,7 @@ export default {
     width: 68vw;
     text-align: left;
     .title {
-      padding:0 0 15px 0;
+      padding: 0 0 15px 0;
       display: flex;
       align-items: center;
       width: 60px;

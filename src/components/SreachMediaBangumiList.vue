@@ -1,12 +1,15 @@
 <template>
   <div>
-    {{ keyword }}
-    <MediaBangumiItem
+    <br />
+
+    <MediaBangumiItem 
       v-for="item in listData"
       :item="item"
       :key="item.season_id"
     >
     </MediaBangumiItem>
+
+    
   </div>
 </template>
 
@@ -22,6 +25,7 @@ export default {
   },
   methods: {
     getListData() {
+      this.listData=[]
       if (this.keyword) {
         console.log(this.keyword);
         let source = `api/x/web-interface/search/type?keyword=${this.keyword}&page=1&search_type=media_bangumi&order=totalrank&pagesize=20`;

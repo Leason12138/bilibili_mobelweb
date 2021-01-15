@@ -52,7 +52,7 @@
           <van-tab title="默认排序">
             <!-- <div class="" v-if="alldata[0].data[0]" title="活动">
               {{ alldata[0].data[0] }}
-            <hr /> -->
+            <div>--------------查看更多番剧---------------</div> -->
 
             <div class="" v-if="alldata.result[3].data[0]" title="番剧">
               <MediaBangumiItem
@@ -61,7 +61,9 @@
                 :key="item.id"
               >
               </MediaBangumiItem>
-              <hr />
+              <div @click="sreachclassactive = 1">
+                <span class="line">查看更多番剧 </span>
+              </div>
             </div>
             <div class="" v-if="alldata.result[4].data[0]" title=" 电影">
               <!-- {{ alldata.result[4].data[0] }} -->
@@ -73,7 +75,9 @@
               >
               </MediaFtItem>
 
-              <hr />
+              <div @click="sreachclassactive = 3">
+                <span class="line">查看更多影视</span>
+              </div>
             </div>
 
             <div class="tabvideo" v-if="alldata.result[8].data[0]" title="视频">
@@ -98,14 +102,50 @@
               <div v-for="it in item" :key="it.id">
                   <div v-for="i in it" :key="i.id">
                     <div v-html="i.title"></div>
-                  <hr />
+                  <div>--------------查看更多番剧---------------</div>
                   </div>
                 </div> 
             </div>-->
           </van-tab>
-          <van-tab title="播放多"> </van-tab>
-          <van-tab title="新发布">内容 3</van-tab>
-          <van-tab title="弹幕多">内容 4</van-tab>
+          <van-tab title="播放多">
+            <PlayMore :keyword="$route.query.keyword"></PlayMore>
+            <Footer
+              Footer
+              :bool="
+                !(
+                  !alldata.result[8].data[0] &&
+                  !alldata.result[3].data[0] &&
+                  !alldata.result[4].data[0]
+                )
+              "
+            ></Footer>
+          </van-tab>
+          <van-tab title="新发布">
+            <NewRelease :keyword="$route.query.keyword"></NewRelease>
+            <Footer
+              Footer
+              :bool="
+                !(
+                  !alldata.result[8].data[0] &&
+                  !alldata.result[3].data[0] &&
+                  !alldata.result[4].data[0]
+                )
+              "
+            ></Footer>
+          </van-tab>
+          <van-tab title="弹幕多">
+            <DanmuMore :keyword="$route.query.keyword"></DanmuMore>
+            <Footer
+              Footer
+              :bool="
+                !(
+                  !alldata.result[8].data[0] &&
+                  !alldata.result[3].data[0] &&
+                  !alldata.result[4].data[0]
+                )
+              "
+            ></Footer>
+          </van-tab>
         </van-tabs>
       </van-tab>
       <van-tab :title="`番剧(${alldata.top_tlist.media_bangumi})`">
@@ -133,6 +173,9 @@
 
 <script>
 import DetailVideoItem from "../components/DetailVideoItem";
+import DanmuMore from "../components/DanmuMore";
+import NewRelease from "../components/NewRelease";
+import PlayMore from "../components/PlayMore";
 import SreachMediaBangumiList from "../components/SreachMediaBangumiList";
 import SreachMediaFtList from "../components/SreachMediaFtList";
 import SreachUPerList from "../components/SreachUPerList";
@@ -141,6 +184,9 @@ import MediaBangumiItem from "../components/MediaBangumiItem";
 import MediaFtItem from "../components/MediaFtItem";
 export default {
   components: {
+    DanmuMore,
+    NewRelease,
+    PlayMore,
     SreachMediaBangumiList,
     SreachMediaFtList,
     SreachUPerList,
@@ -208,7 +254,8 @@ export default {
     this.axios.get(source).then((res) => {
       this.commedsreach = res.data.data;
     });
-
+    this.getalldata(this.$route.query.keyword);
+    this.keyword = this.$route.query.keyword;
     let source2 = `http://s.search.bilibili.com/main/hotword`;
     this.axios.get(source2).then((res) => {
       this.hotsreach = res.data.list;
@@ -275,6 +322,27 @@ export default {
       li {
         margin: 5px 0;
       }
+    }
+  }
+  .line{
+    width: 100vw;
+    color: #999;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    &::before{
+      content: '';
+      height: 2px;
+      width: 30vw;
+      background:linear-gradient(to right , #eee,#ddd);
+      display: block;
+    }
+    &::after{
+      content: '';
+      height: 2px;
+      width: 30vw;
+      background:linear-gradient(to left , #eee,#ddd);
+      display: block;
     }
   }
 }

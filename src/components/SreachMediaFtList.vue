@@ -18,6 +18,7 @@ export default {
   },
   methods: {
     getListData() {
+      this.listData=[]
       if (this.keyword) {
         console.log(this.keyword);
         let source = `api/x/web-interface/search/type?keyword=${this.keyword}&page=1&search_type=media_ft&order=totalrank&pagesize=20`;
