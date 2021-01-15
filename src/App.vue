@@ -25,6 +25,7 @@
 
     <div v-show="$route.meta.isShowNav" class="top">
       <van-tabs
+        sticky
         color="#fb7299"
         title-active-color="#fb7299"
         class="tabsbar"
@@ -39,7 +40,7 @@
         </van-tab>
       </van-tabs>
 
-      <van-dropdown-menu active-color="#fb7299" :class="{ dropdown: 1 }">
+      <van-dropdown-menu  active-color="#fb7299" :class="{ dropdown: 1 }">
         <van-dropdown-item
           ref="xxx"
           @change="dropdownClickFn"
@@ -853,18 +854,18 @@ export default {
     // vclickfn() {
     //   console.log(111);
 
-      // console.dir(document.querySelector(".dropdown .van-dropdown-menu__bar ").classList.add('van-dropdown-menu__bar--opened'));
+    // console.dir(document.querySelector(".dropdown .van-dropdown-menu__bar ").classList.add('van-dropdown-menu__bar--opened'));
 
-      // document.querySelector("body").classList.toggle("van-overflow-hidden");
-      // //
+    // document.querySelector("body").classList.toggle("van-overflow-hidden");
+    // //
 
-      // console.dir(
-      //   document
-      //     .querySelector(".dropdown span")
-      //     .classList.add(
-      //       "van-dropdown-menu__title--active","van-dropdown-menu__title--down"
-      //     )
-      // );
+    // console.dir(
+    //   document
+    //     .querySelector(".dropdown span")
+    //     .classList.add(
+    //       "van-dropdown-menu__title--active","van-dropdown-menu__title--down"
+    //     )
+    // );
 
     //   this.$refs.xxx.toggle();
 
@@ -959,7 +960,6 @@ export default {
   .tabsbar .van-tabs__nav {
     width: 78vw;
     margin: 0;
-   
   }
   .dropdown {
     width: 22vw;

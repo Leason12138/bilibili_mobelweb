@@ -1,7 +1,7 @@
 <template>
   <div class="about">
     <div v-if="$route.query.query != 0">
-      <van-tabs color="#fb7299" title-active-color="#fb7299" v-model="active">
+      <van-tabs sticky color="#fb7299" title-active-color="#fb7299" v-model="active">
         <van-tab title="推荐">
           <div class="itembox" v-if="showdata">
             <div style="width: 100vw; text-align: left">推荐视频</div>

@@ -29,9 +29,13 @@
               : item.video_review
           }}
         </span>
-        <span v-else>
+        <span v-else-if="item.stat">
           <van-icon name="comment-o" />
-         
+          {{
+            item.stat.danmaku > 10000
+              ? (item.stat.danmaku / 10000).toFixed(1) + "万"
+              : item.stat.danmaku
+          }}
         </span>
       </div>
     </div>

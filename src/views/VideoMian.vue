@@ -374,19 +374,26 @@ export default {
         background-size: contain;
       }
       .upname {
+        width: 118px;
+        height: 20px;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+        overflow: hidden;
         font-size: 14px;
         padding: 3px 0 0 5px;
       }
     }
     .oldThreeThings {
-      padding-left: 10px;
+      padding-right: 10px;
       color: grey;
       font-size: 15px;
       display: flex;
       justify-content: space-between;
       align-items: center;
       span {
+
         vertical-align: top;
+        font-size: 13px;
         margin-right: 5px;
       }
       .active {

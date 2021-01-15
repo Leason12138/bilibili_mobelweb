@@ -5,7 +5,7 @@
       <VideoItem
         @videoitemClickFn="videoitemClickFn"
         :item="item"
-        v-for="item in commenddata.slice(0,4)"
+        v-for="item in commenddata.slice(0, 4)"
         :key="item.aid"
       >
       </VideoItem>
@@ -42,14 +42,12 @@ export default {
       let source = `api/x/web-interface/ranking/region?rid=${this.item.classvalue}`;
       this.axios.get(source).then((res) => {
         this.commenddata = res.data.data;
-        console.log("commenddata", this.commenddata);
       });
     },
     getshowdata() {
       let suores = `api/x/web-interface/dynamic/region?rid=${this.item.classvalue}&pn=1`;
       this.axios.get(suores).then((res) => {
         this.showdata = res.data.data;
-        console.log("showdata", this.showdata);
       });
     },
   },
@@ -59,7 +57,6 @@ export default {
   },
   watch: {
     item: function () {
-      console.log(1111);
       this.getshowdata();
       this.getcommenddata();
     },
