@@ -12,7 +12,7 @@
       </div>
       <div v-html="item.title"></div>
       <p>地区:{{ item.areas }}</p>
-      <p>演员:{{ item.cv }}</p>
+      <p>演员: <span v-if="item.cv">{{ item.cv }}</span> <span v-else>暂无信息</span> </p>
       <p>{{ item.staff }}</p>
     </div>
   </div>

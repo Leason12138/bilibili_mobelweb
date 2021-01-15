@@ -84,7 +84,15 @@
               >
               </DetailVideoItem>
             </div>
-            <Footer :bool="!(!alldata.result[8].data[0]&&!alldata.result[3].data[0]&&!alldata.result[4].data[0] )"></Footer>
+            <Footer
+              :bool="
+                !(
+                  !alldata.result[8].data[0] &&
+                  !alldata.result[3].data[0] &&
+                  !alldata.result[4].data[0]
+                )
+              "
+            ></Footer>
 
             <!--    <div v-if="item.data[0]">
               <div v-for="it in item" :key="it.id">
@@ -101,6 +109,9 @@
         </van-tabs>
       </van-tab>
       <van-tab :title="`番剧(${alldata.top_tlist.media_bangumi})`">
+        <SreachMediaBangumiList
+          :keyword="$route.query.keyword"
+        ></SreachMediaBangumiList>
         <Footer :bool="alldata.top_tlist.media_bangumi"></Footer>
       </van-tab>
 
@@ -122,6 +133,7 @@
 
 <script>
 import DetailVideoItem from "../components/DetailVideoItem";
+import SreachMediaBangumiList from "../components/SreachMediaBangumiList";
 import SreachMediaFtList from "../components/SreachMediaFtList";
 import SreachUPerList from "../components/SreachUPerList";
 import Footer from "../components/Footer";
@@ -129,6 +141,7 @@ import MediaBangumiItem from "../components/MediaBangumiItem";
 import MediaFtItem from "../components/MediaFtItem";
 export default {
   components: {
+    SreachMediaBangumiList,
     SreachMediaFtList,
     SreachUPerList,
     Footer,
@@ -164,6 +177,8 @@ export default {
       this.axios.get(source).then((res) => {
         this.alldata = res.data.data;
         this.filterShow = true;
+        this.sreachclassactive = 0;
+        this.sreachviewactive = 0;
       });
     },
     onSearch() {
