@@ -33,6 +33,9 @@ export default {
     height: 25vw;
     border-radius: 10px;
     background-color: #e6e6e6;
+    background-image: url('../assets/bgpic.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     overflow: hidden;
     position: relative;
   }

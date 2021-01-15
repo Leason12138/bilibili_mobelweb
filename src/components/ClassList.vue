@@ -1,22 +1,34 @@
 <template>
   <div class="classlist">
-    {{ item.text }}
-    <div class="classlistitem">
-      <VideoItem
-        @videoitemClickFn="videoitemClickFn"
-        :item="item"
-        v-for="item in showdata.slice(0, 4)"
-        :key="item.aid"
-      >
-      </VideoItem>
+    <div v-if="showdata[0]">
+      <span class="title"> {{ item.text }}</span>
+      <div class="classlistitem">
+        <VideoItem
+          @videoitemClickFn="videoitemClickFn"
+          :item="item"
+          v-for="item in showdata.slice(0, 4)"
+          :key="item.aid"
+        >
+        </VideoItem>
+      </div>
+    </div>
+    <div v-else>
+      <SkeletonScreenItem v-for="item in 2" :key="item.id">
+        {{ item }}
+      </SkeletonScreenItem>
     </div>
   </div>
 </template>
 
+
 <script>
+// <SkeletonScreenItem v-for="item in items" :key="item.id">
+//         {{ item }}
+//       </SkeletonScreenItem>
 import VideoItem from "./VideoItem";
+import SkeletonScreenItem from "./SkeletonScreenItem";
 export default {
-  components: { VideoItem },
+  components: { VideoItem, SkeletonScreenItem },
   props: ["item"],
   data: function () {
     return {
@@ -48,8 +60,12 @@ export default {
 
 <style lang="scss" scoped>
 .classlist {
+  .title {
+    margin: 25px 0 20px 10px;
+    display: block;
+    text-align: left;
+  }
   .classlistitem {
-    width: 100vw;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

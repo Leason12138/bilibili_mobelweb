@@ -254,7 +254,9 @@ export default {
     this.axios.get(source).then((res) => {
       this.commedsreach = res.data.data;
     });
-    this.getalldata(this.$route.query.keyword);
+    if(this.$route.query.keyword){
+      this.getalldata(this.$route.query.keyword);
+    }
     this.keyword = this.$route.query.keyword;
     let source2 = `http://s.search.bilibili.com/main/hotword`;
     this.axios.get(source2).then((res) => {

@@ -1,42 +1,63 @@
 <template>
-  <div class="about">
-    <div class="itembox" v-if="showdata">
-      <VideoItem
-        @videoitemClickFn="videoitemClickFn"
-        v-for="(item, index) in showdata"
-        :item="item"
-        :key="index"
-      >
-      </VideoItem>
+  <div class="home">
+    <div v-if="$route.query.query != 0">
+      <div class="itembox" v-if="showdata">
+        <div style="width: 100vw; text-align: left; padding: 25px">推荐视频</div>
+        <VideoItem
+          @videoitemClickFn="videoitemClickFn"
+          v-for="(item, index) in showdata"
+          :item="item"
+          :key="index"
+        >
+        </VideoItem>
+      </div>
+      <div>
+        <ClassList
+          :item="item"
+          v-for="(item, index) in classdata[$route.query.query]"
+          :key="index"
+        >
+        </ClassList>
+      </div>
+    </div>
+    <div v-else>
+      <div class="itembox" v-if="showdata">
+        <VideoItem
+          @videoitemClickFn="videoitemClickFn"
+          v-for="(item, index) in showdata"
+          :item="item"
+          :key="index"
+        >
+        </VideoItem>
+      </div>
     </div>
   </div>
 </template>
 
 <script>
 import VideoItem from "../components/VideoItem";
+import ClassList from "../components/ClassList";
 export default {
-  components: { VideoItem },
+  components: { VideoItem, ClassList },
   data: function () {
     return {
       showdata: [],
+      active: "",
+      classdata: [],
     };
   },
   methods: {
     videoitemClickFn(a) {
-      // console.log(a);
-      // VideoMian
       this.$router.push(`VideoMian?bvid=${a}`);
     },
     getshowdata() {
-      
-        this.showdata = this.$store.state.homedata;
-        // console.log(this.showdata);
-      
+      this.showdata = this.$store.state.homedata;
     },
   },
   watch: {
     $route: function (n) {
       // console.log(n);
+      this.active = 0;
       this.showdata = [];
       if (n.query.query) {
         this.getshowdata(n);
@@ -44,13 +65,17 @@ export default {
     },
   },
   created() {
+    this.classdata = this.$store.state.classdata;
     this.getshowdata(this.$route);
   },
 };
 </script>
 
 <style lang="scss" scoped>
-.about {
+.home {
+  width: 96vw;
+  overflow: hidden;
+  padding: 1vw;
   .itembox {
     display: flex;
     flex-direction: row;

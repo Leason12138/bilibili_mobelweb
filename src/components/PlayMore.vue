@@ -1,5 +1,6 @@
 <template>
-  <div>
+ <div>
+ <div v-if="listData[0]">
     <DetailVideoItem
       v-for="item in listData"
       :item="item"
@@ -7,13 +8,19 @@
     >
     </DetailVideoItem>
   </div>
+  <div v-else>
+<SkeletonScreen></SkeletonScreen>
+  </div>
+
+ </div>
 </template>
 
 <script>
+import SkeletonScreen from "./SkeletonScreen";
 import DetailVideoItem from "./DetailVideoItem";
 export default {
   props: ["keyword"],
-  components: { DetailVideoItem },
+  components: {SkeletonScreen, DetailVideoItem },
   data: function () {
     return {
       listData: [],

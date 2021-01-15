@@ -1,43 +1,51 @@
 <template >
-  <div class="DetailVideoItem" 
-  @click="videoitemClickFn(item.bvid)">
-    <div class="pic">
-      <img class="anto-img" :src="item.pic" alt="" />
-      <span> {{ item.duration }} </span>
-    </div>
-    <div class="text">
-      <div class="title" v-html="item.title"></div>
-      <div class="uper">
-        <span>{{ item.author }}</span>
+  <div>
+    <div
+      v-if="item.bvid"
+      class="DetailVideoItem"
+      @click="videoitemClickFn(item.bvid)"
+    >
+      <div class="pic">
+        <img class="anto-img" :src="item.pic" alt="" />
+        <span> {{ item.duration }} </span>
       </div>
-      <div class="viewdata">
-        <div class="views">
-          <van-icon name="play-circle-o" />
-          <span>
-            {{
-              item.play > 10000
-                ? (item.play / 10000).toFixed(1) + "万"
-                : item.play
-            }}</span
-          >
+      <div class="text">
+        <div class="title" v-html="item.title"></div>
+        <div class="uper">
+          <span>{{ item.author }}</span>
         </div>
-        <div class="damus">
-          <van-icon name="comment-o" />
-          <span>
-            {{
-              item.video_review > 10000
-                ? (item.video_review / 10000).toFixed(1) + "万"
-                : item.video_review
-            }}</span
-          >
+        <div class="viewdata">
+          <div class="views">
+            <van-icon name="play-circle-o" />
+            <span>
+              {{
+                item.play > 10000
+                  ? (item.play / 10000).toFixed(1) + "万"
+                  : item.play
+              }}</span
+            >
+          </div>
+          <div class="damus">
+            <van-icon name="comment-o" />
+            <span>
+              {{
+                item.video_review > 10000
+                  ? (item.video_review / 10000).toFixed(1) + "万"
+                  : item.video_review
+              }}</span
+            >
+          </div>
         </div>
       </div>
     </div>
+    
   </div>
 </template>
 
 <script>
+// import SkeletonScreenItem from "./SkeletonScreenItem";
 export default {
+  // components: { SkeletonScreenItem },
   props: ["item"],
   methods: {
     videoitemClickFn(a) {
@@ -67,6 +75,10 @@ export default {
     border-radius: 5px;
     overflow: hidden;
     position: relative;
+  background-color: #e6e6e6;
+    background-image: url('../assets/bgpic.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     img {
       position: absolute;
     }

@@ -1,7 +1,42 @@
 <template>
   <div class="videomain">
-    <!-- src="http://vjs.zencdn.net/v/oceans.mp4" -->
-    <video controls width="100%"></video>
+    <div class="facepic" @click="isVideoShow = !isVideoShow" v-if="isVideoShow">
+      <div class="pic" v-if="!showdata.data"></div>
+      <div v-if="showdata.data" class="videoface">
+        <div
+          class="auto-img"
+          :style="{ backgroundImage: `url(${showdata.data.pic})` }"
+          alt=""
+        >
+          <div></div>
+          <van-icon color="#dddddddd" size="20vw" name="play-circle" />
+          <div class="videomsg">
+            <span>
+              {{
+                showdata.data.stat.view > 10000
+                  ? (showdata.data.stat.view / 10000).toFixed(1) + "万"
+                  : showdata.data.stat.view
+              }}次观看</span
+            >
+            <span
+              >{{
+                showdata.data.stat.danmaku > 10000
+                  ? (showdata.data.stat.danmaku / 10000).toFixed(1) + "万"
+                  : showdata.data.stat.danmaku
+              }}弹幕
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <video
+      v-if="!isVideoShow"
+      src="https://freevod.nf.migu.cn/0oW7VYswQRvLnmxHv6FzG9%2FM4poNoBL2Lp8Jsp5ssXLJ4uYTDVNjWCxzSjbcdAqMFfHGeuGI%2Fvs3fW7%2BLLtrqf6cjXRW8GrEnDBeh0z8NdNfPElkxoCjxaR%2B6wtkzZb6CVOhLsu4ciuTulXgHle7A%2B3EjyorhEyrIpHrsLgsVBWSLzyWsIw2ohgdLpOq8TBv/600547Y0013223305.mp4?msisdn=2a257d4c-1ee0-4ad8-8081-b1650c26390a&spid=600906&sid=57858632120200&timestamp=20200904035925&encrypt=313933b28758af97ab46a6b2c7eca796&k=fa1c6e97c237dfff&t=1599170365187&ec=2&flag=+&FN=Mojito"
+      controls
+      autoplay
+      width="100%"
+    ></video>
+
     <div class="" v-if="showdata.data">
       <div class="title">
         <span :class="{ titlebolck: descboxshow, titletext: true }">
@@ -76,7 +111,7 @@
             {{ showdata.data.owner.name }}
           </div>
         </div>
-        <div class="oldThreeThings">
+        <div :class="{ oldThreeThings: 1, oldThreeThingsopen: descboxshow }">
           <div
             @click="likeorno = !likeorno"
             :class="{ like: 1, active: likeorno }"
@@ -126,7 +161,8 @@
 
     <div class="recommended">
       <van-tabs
-        @click="getreplydata"
+        sticky
+        swipeable
         line-width="60"
         color="#fb7299"
         title-active-color="#fb7299"
@@ -150,7 +186,15 @@
               : showdata.data.stat.reply
           }`"
         >
+          <VideoMianRemarksItem
+            class="VideoMianRemarksItem"
+            v-for="item in repliesdata"
+            :item="item"
+            :key="item.id"
+          >
+          </VideoMianRemarksItem>
         </van-tab>
+        <Footer :bool="repliesdata[0]"></Footer>
       </van-tabs>
     </div>
   </div>
@@ -158,10 +202,14 @@
 
 <script>
 import VideoItem from "../components/VideoItem";
+import Footer from "../components/Footer";
+import VideoMianRemarksItem from "../components/VideoMianRemarksItem";
 export default {
-  components: { VideoItem },
+  components: { Footer, VideoItem, VideoMianRemarksItem },
   data: function () {
     return {
+      repliesdata: [],
+      isVideoShow: true,
       descboxshow: true,
       starorno: false,
       coinorno: false,
@@ -174,13 +222,12 @@ export default {
     };
   },
   methods: {
-    getreplydata(name) {
-      if (name == 1) {
-        console.log(this.avid);
+    getreplydata() {
+      if (this.avid) {
         this.$axios
           .get(`api/x/v2/reply/main?oid=${this.avid}&type=1`)
           .then((res) => {
-            console.log(res.data.data.replies);
+            this.repliesdata = res.data.data.replies;
           });
       }
     },
@@ -195,28 +242,8 @@ export default {
         console.log(this.showdata);
         this.avid = res.data.data.aid;
         console.log(this.avid);
+        this.getreplydata();
       });
-      /*   .then((cid) => {
-          // console.log("cid", cid.data.bvid);
-          let bvid = cid.data.bvid;
-          cid.data.pages.map((it) => {
-            // console.log(it);
-            this.$axios
-              .get(`api/x/player/playurl?bvid=${bvid}&cid=${it.cid}`)
-              .then((res) => {
-                // console.log(res.data.data.durl[0].url);
-                this.url.push(res.data.data.durl[0].url);
-              })
-              .then(() => {
-                console.log(1);
-                console.log(this.url[0].slice(8));
-                this.$axios.get(`api/${this.url[0].slice(8)}`).then((res) => {
-                  // console.log(res.data.data.durl[0].url);
-                  console.log(res);
-                });
-              });
-          });
-        });*/
 
       //
       this.$axios
@@ -234,11 +261,6 @@ export default {
       //     res;
       //   });
     },
-    //     getVideoAddInVideoMain:function(n,c){
-    //   this.$axios.get(`api/x/player/playurl?bvid=${n}&${c}`).then((res) => {
-
-    //       });
-    //     }
   },
   watch: {
     $route: function (n) {
@@ -256,6 +278,7 @@ export default {
       let n = this.$route.query.bvid;
       this.getShowDataInVideoMain(n);
       this.getCidDataInVideoMain(n);
+
       //   this.getVideoAddInVideoMain(n,this.cid);
     }
   },
@@ -285,18 +308,66 @@ export default {
 <style lang="scss" scoped>
 .videomain {
   // descAnima
+
+  .facepic {
+    width: 100vw;
+    height: 50vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #eee;
+    .pic {
+      width: 30vw;
+      height: 30vw;
+      background-image: url("../assets/bgpic.png");
+      background-repeat: no-repeat;
+      background-size: contain;
+    }
+    .videoface {
+      width: 100vw;
+      height: 50vw;
+      position: relative;
+
+      background-color: #000;
+      .auto-img {
+        width: 100%;
+        height: 100%;
+        background-size: contain;
+        background-position: center center;
+        background-repeat: no-repeat;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+      }
+      .videomsg {
+        width: 100vw;
+        height: 5vw;
+        color: #dedede;
+        background: linear-gradient(to top, #333, transparent);
+        display: flex;
+        justify-content: space-around;
+        align-items: center;
+        font-size: 14px;
+      }
+    }
+  }
+
   .title {
     padding-left: 10px;
     display: flex;
     justify-content: space-between;
-    height: 36px;
     .titletext {
       overflow: hidden;
       white-space: nowrap;
       text-overflow: ellipsis;
     }
     .titlebolck {
-      display: block;
+      height: auto;
+      text-align: left;
+      font-size: 4vw;
+      overflow: initial;
+      white-space: initial;
+      text-overflow: initial;
     }
     span {
       line-height: 36px;
@@ -391,13 +462,23 @@ export default {
       justify-content: space-between;
       align-items: center;
       span {
-
         vertical-align: top;
         font-size: 13px;
         margin-right: 5px;
       }
       .active {
         color: #fb7299;
+      }
+    }
+    .oldThreeThingsopen {
+      width: 100vw;
+      display: flex;
+      justify-content: space-around;
+      align-items: center;
+      span {
+        vertical-align: top;
+        font-size: 4.5vw;
+        margin-right: 5px;
       }
     }
   }
@@ -408,7 +489,13 @@ export default {
     justify-content: space-around;
     flex-wrap: wrap;
   }
-  // .recommended {
-  // }
+  .recommended {
+    .VideoMianRemarksItem {
+      border-top: 1px solid #ddd;
+      &:last-child {
+        border-bottom: 1px solid #ddd;
+      }
+    }
+  }
 }
 </style>

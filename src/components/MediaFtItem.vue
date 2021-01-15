@@ -12,7 +12,10 @@
       </div>
       <div v-html="item.title"></div>
       <p>地区:{{ item.areas }}</p>
-      <p>演员: <span v-if="item.cv">{{ item.cv }}</span> <span v-else>暂无信息</span> </p>
+      <p>
+        演员: <span v-if="item.cv">{{ item.cv }}</span>
+        <span v-else>暂无信息</span>
+      </p>
       <p>{{ item.staff }}</p>
     </div>
   </div>
@@ -21,10 +24,9 @@
 <script>
 export default {
   props: ["item"],
-    methods: {
+  methods: {
     videoitemClickFn(a) {
-            window.location.href = a
-
+      window.location.href = a;
     },
   },
 };
@@ -47,6 +49,10 @@ export default {
     width: 23vw;
     height: auto;
     overflow: hidden;
+    background-color: #e6e6e6;
+    background-image: url("../assets/bgpic.png");
+    background-repeat: no-repeat;
+    background-position: center center;
     border-radius: 5px;
   }
   .text {

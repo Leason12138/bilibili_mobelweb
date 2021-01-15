@@ -1,10 +1,15 @@
 <template>
   <div class="about">
     <div v-if="$route.query.query != 0">
-      <van-tabs sticky color="#fb7299" title-active-color="#fb7299" v-model="active">
+      <van-tabs
+        sticky
+        color="#fb7299"
+        title-active-color="#fb7299"
+        v-model="active"
+      >
         <van-tab title="推荐">
-          <div class="itembox" v-if="showdata">
-            <div style="width: 100vw; text-align: left">推荐视频</div>
+          <div class="itembox" v-if="showdata[0]">
+            <div class="commond">推荐视频</div>
             <VideoItem
               @videoitemClickFn="videoitemClickFn"
               v-for="(item, index) in showdata.slice(0, 4)"
@@ -12,6 +17,11 @@
               :key="index"
             >
             </VideoItem>
+          </div>
+          <div v-else>
+            <SkeletonScreenItem v-for="item in 2" :key="item.id">
+              {{ item }}
+            </SkeletonScreenItem>
           </div>
           <div>
             <ClassList
@@ -49,8 +59,9 @@
 import VideoItem from "../components/VideoItem";
 import ClassList from "../components/ClassList";
 import WithOutCommend from "../components/WithOutCommend";
+import SkeletonScreenItem from "../components/SkeletonScreenItem";
 export default {
-  components: { VideoItem, ClassList, WithOutCommend },
+  components: { SkeletonScreenItem, VideoItem, ClassList, WithOutCommend },
   data: function () {
     return {
       showdata: [],
@@ -94,10 +105,16 @@ export default {
 
 <style lang="scss" scoped>
 .about {
+  .commond {
+    width: 100vw;
+    text-align: left;
+    margin: 25px 0 20px 10px;
+  }
   width: 96vw;
   overflow: hidden;
   padding: 1vw;
   .itembox {
+    text-align: left;
     display: flex;
     flex-direction: row;
     justify-content: space-around;

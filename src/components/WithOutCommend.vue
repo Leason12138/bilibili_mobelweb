@@ -1,7 +1,7 @@
 <template>
   <div class="withoutcommend">
-    <span> 热门推荐 </span>
-    <div class="itembox">
+    <span class="title"> 热门推荐 </span>
+    <div v-if="commenddata[0]" class="itembox">
       <VideoItem
         @videoitemClickFn="videoitemClickFn"
         :item="item"
@@ -10,8 +10,14 @@
       >
       </VideoItem>
     </div>
-    <span> 最新视频 </span>
-    <div class="itembox">
+
+    <div v-else>
+      <SkeletonScreenItem v-for="item in 2" :key="item.id">
+        {{ item }}
+      </SkeletonScreenItem>
+    </div>
+    <span class="title"> 最新视频 </span>
+    <div v-if="commenddata[0]" class="itembox">
       <VideoItem
         @videoitemClickFn="videoitemClickFn"
         :item="item"
@@ -20,13 +26,19 @@
       >
       </VideoItem>
     </div>
+    <div v-else>
+      <SkeletonScreenItem v-for="item in 2" :key="item.id">
+        {{ item }}
+      </SkeletonScreenItem>
+    </div>
   </div>
 </template>
 
 <script>
 import VideoItem from "./VideoItem";
+import SkeletonScreenItem from "./SkeletonScreenItem";
 export default {
-  components: { VideoItem },
+  components: { VideoItem ,SkeletonScreenItem},
   props: ["item"],
   data: function () {
     return {
@@ -66,6 +78,11 @@ export default {
 
 <style lang="scss" scoped>
 .withoutcommend {
+  .title{
+    text-align: left;
+    margin: 25px 0 20px 10px;
+display: block;
+  }
   .itembox {
     width: 100vw;
     display: flex;

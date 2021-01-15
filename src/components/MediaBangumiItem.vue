@@ -45,6 +45,10 @@ export default {
     width: 23vw;
     height: auto;
     overflow: hidden;
+      background-color: #e6e6e6;
+    background-image: url('../assets/bgpic.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     border-radius: 5px;
   }
   .text {

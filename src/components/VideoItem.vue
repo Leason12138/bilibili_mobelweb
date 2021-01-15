@@ -59,7 +59,10 @@ export default {
   .pic {
     width: 100%;
     height: 28vw;
-    background-color: darkgray;
+    background-color: #e6e6e6;
+        background-image: url('../assets/bgpic.png');
+    background-repeat: no-repeat;
+    background-position: center center;
     overflow: hidden;
     position: relative;
     border-radius: 5px;
