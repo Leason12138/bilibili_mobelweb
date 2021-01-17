@@ -6,8 +6,11 @@ import store from './store'
 import './plugins/vant.js'
 import VueLazyload from 'vue-lazyload'
 import { DropdownMenu, DropdownItem } from 'vant';
+import VueCookies from 'vue-cookies'
+
 
 // with options
+Vue.use(VueCookies)
 Vue.use(DropdownMenu);
 Vue.use(DropdownItem);
 Vue.use(VueLazyload)

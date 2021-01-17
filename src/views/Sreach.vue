@@ -3,6 +3,8 @@
     <div class="sreachtop">
       <form action="/">
         <van-search
+        clear-trigger='always'
+        autofocus
           v-model="keyword"
           show-action
           :placeholder="commedsreach.show_name"
@@ -31,8 +33,17 @@
           </li>
         </ul>
       </div>
-      <br />
-      <div class="hitsreach">histroy</div>
+      <div class="hitsreach">
+        <p>历史搜索</p>
+        <ul v-if="/^[\s\S]*.*[^\s][\s\S]*$/.test(hissreach)">
+          <li @click="hotsreachclickFn" v-for="item in hisarr" :key="item.id">
+            <van-icon color="#ccc" size="20" class="icon" name="underway-o" /> 
+            <span>{{item }}</span>
+          </li>
+        <p class="cleanhis" @click="clickhis">清除历史记录</p>
+        </ul>
+
+      </div>
     </div>
 
     <van-tabs
@@ -197,6 +208,7 @@ export default {
   },
   data: function () {
     return {
+      hissreach: "",
       sreachclassactive: "",
       sreachviewactive: "",
       keyword: "",
@@ -207,7 +219,18 @@ export default {
       hotsreach: [],
     };
   },
+  computed: {
+    hisarr() {
+      let arr = this.hissreach.split(":=:");
+      arr.shift();
+      return arr;
+    },
+  },
   methods: {
+    clickhis() {
+      this.$cookies.remove("hissreach");
+      this.hissreach = "";
+    },
     sreachsugclickFn(i) {
       this.$router.push(`Sreach?keyword=${i}`);
       this.keyword = i;
@@ -228,10 +251,20 @@ export default {
       });
     },
     onSearch() {
+      if (/^[\s\S]*.*[^\s][\s\S]*$/.test(this.keyword)) {
+        if (this.$cookies.get("hissreach")) {
+          this.hissreach = this.$cookies.get("hissreach");
+        }
+        this.hissreach += `:=:${this.keyword}`;
+        // console.log(this.$cookies);
+        this.$cookies.set("hissreach", this.hissreach);
+        console.log(this.$cookies.get("hissreach"));
+      }
+
       if (this.keyword == "") {
         let bv = this.commedsreach.url.slice(31);
         this.$router.push(`VideoMian?bvid=${bv}`);
-      } else {
+      } else if (/^[\s\S]*.*[^\s][\s\S]*$/.test(this.keyword)) {
         this.$router.push(`Sreach?keyword=${this.keyword}`);
         this.getalldata(this.$route.query.keyword);
       }
@@ -239,6 +272,10 @@ export default {
   },
   watch: {
     keyword(n) {
+      if (this.$cookies.get("hissreach")) {
+        this.hissreach = this.$cookies.get("hissreach");
+        console.log(this.hissreach);
+      }
       this.filterShow = false;
       if (n != "") {
         let source = `http://s.search.bilibili.com/main/suggest?term=${n}&highlight=${n}`;
@@ -249,12 +286,15 @@ export default {
     },
   },
   created() {
+    if (this.$cookies.get("hissreach")) {
+      this.hissreach = this.$cookies.get("hissreach");
+    }
     // http://api.bilibili.com/x/web-interface/search/default
     let source = `api/x/web-interface/search/default`;
     this.axios.get(source).then((res) => {
       this.commedsreach = res.data.data;
     });
-    if(this.$route.query.keyword){
+    if (this.$route.query.keyword) {
       this.getalldata(this.$route.query.keyword);
     }
     this.keyword = this.$route.query.keyword;
@@ -305,6 +345,42 @@ export default {
       }
     }
   }
+  .hitsreach {
+    background-color: #fff;
+    p{
+      text-align: left;
+      padding:12px 0 20px 20px;
+color: #999999;
+    }
+    ul {
+      list-style: none;
+      li {
+        margin-left: 20px;
+        border-bottom: 1px solid #ccc;
+        height: 47px;
+        line-height: 47px;
+        color: #444;
+        text-align: left;
+        position: relative;
+        .icon {
+          position: absolute;
+          left: 0;
+          line-height: 47px;
+        }
+        span{
+          position: absolute;
+          left: 30px;
+        }
+      }
+    }
+    .cleanhis{
+    text-align: center;
+    display: block;
+    color: #999999;
+ margin: 0;
+ padding:12px 0 20px 0;
+    }
+  }
   .hotsreach {
     width: 100vw;
     background-color: #fff;
@@ -326,24 +402,24 @@ export default {
       }
     }
   }
-  .line{
+  .line {
     width: 100vw;
     color: #999;
     display: flex;
     justify-content: space-around;
     align-items: center;
-    &::before{
-      content: '';
+    &::before {
+      content: "";
       height: 2px;
       width: 30vw;
-      background:linear-gradient(to right , #eee,#ddd);
+      background: linear-gradient(to right, #eee, #ddd);
       display: block;
     }
-    &::after{
-      content: '';
+    &::after {
+      content: "";
       height: 2px;
       width: 30vw;
-      background:linear-gradient(to left , #eee,#ddd);
+      background: linear-gradient(to left, #eee, #ddd);
       display: block;
     }
   }

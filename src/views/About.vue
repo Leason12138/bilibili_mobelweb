@@ -23,7 +23,7 @@
               {{ item }}
             </SkeletonScreenItem>
           </div>
-          <div>
+          <div v-if="classdata[$route.query.query]">
             <ClassList
               :item="item"
               v-for="(item, index) in classdata[$route.query.query]"

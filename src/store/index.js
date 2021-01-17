@@ -324,21 +324,8 @@ export default new Vuex.Store({
                     text: "野生技术协会",
                     classvalue: "122",
                 },
-                {
-                    value: 7,
-                    text: "演讲·公开课（已下线）",
-                    classvalue: "39",
-                },
-                {
-                    value: 8,
-                    text: "星海（已下线）",
-                    classvalue: "96",
-                },
-                {
-                    value: 9,
-                    text: "机械（已下线）",
-                    classvalue: "98",
-                },
+
+
             ],
             188: [{
                     value: 1,
@@ -521,11 +508,7 @@ export default new Vuex.Store({
                     text: "明星",
                     classvalue: "137",
                 },
-                {
-                    value: 3,
-                    text: "Korea相关（已下线）",
-                    classvalue: "131",
-                },
+
             ],
             181: [{
                     value: 1,

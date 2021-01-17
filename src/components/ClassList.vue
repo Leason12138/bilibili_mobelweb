@@ -40,11 +40,21 @@ export default {
       this.$router.push(`VideoMian?bvid=${a}`);
     },
     getshowdata() {
-      let source = `api/x/web-interface/ranking/region?rid=${this.item.classvalue}`;
-      this.axios.get(source).then((res) => {
-        this.showdata = res.data.data;
-        //   console.log(this.showdata);
-      });
+        if (this.item.text == "完结动画") {
+          console.log("errrrrrr");
+          // https://api.bilibili.com/x/web-interface/ranking/region?rid=32&day=7&context=
+            let source = `api/x/web-interface/ranking/region?rid=32&day=7&context=`;
+          this.axios.get(source).then((res) => {
+            this.showdata = res.data.data;
+            //   console.log(this.showdata);
+          });
+        } else {
+          let source = `api/x/web-interface/ranking/region?rid=${this.item.classvalue}`;
+          this.axios.get(source).then((res) => {
+            this.showdata = res.data.data;
+            //   console.log(this.showdata);
+          });
+      }
     },
   },
   created() {

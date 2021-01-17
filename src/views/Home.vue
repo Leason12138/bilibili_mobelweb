@@ -2,7 +2,7 @@
   <div class="home">
     <div v-if="$route.query.query != 0">
       <div class="itembox" v-if="showdata">
-        <div style="width: 100vw; text-align: left; padding: 25px">推荐视频</div>
+      
         <VideoItem
           @videoitemClickFn="videoitemClickFn"
           v-for="(item, index) in showdata"
