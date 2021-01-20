@@ -258,12 +258,14 @@ export default {
     },
     onSearch() {
       if (/^[\s\S]*.*[^\s][\s\S]*$/.test(this.keyword)) {
-        if (this.$cookies.get("hissreach")) {
-          this.hissreach = this.$cookies.get("hissreach");
+        if (this.hisarr.indexOf(this.keyword) == -1) {
+          if (this.$cookies.get("hissreach")) {
+            this.hissreach = this.$cookies.get("hissreach");
+          }
+          this.hissreach += `:=:${this.keyword}`;
+          // console.log(this.$cookies);
+          this.$cookies.set("hissreach", this.hissreach);
         }
-        this.hissreach += `:=:${this.keyword}`;
-        // console.log(this.$cookies);
-        this.$cookies.set("hissreach", this.hissreach);
         // console.log(this.$cookies.get("hissreach"));
       }
 
@@ -293,7 +295,7 @@ export default {
     $route: function (n) {
       // console.log(1111);
       if (n.name == "Sreach") {
-        location.reload([true]);
+        location.reload([false]);
       }
     },
   },
