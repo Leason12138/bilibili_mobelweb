@@ -52,11 +52,11 @@ export default {
     },
     getcommenddata() {
       if (this.item.text == "完结动画") {
-        console.log("errrrrrr");
+        // console.log("errrrrrr");
         // https://api.bilibili.com/x/web-interface/ranking/region?rid=32&day=7&context=
         let source = `api/x/web-interface/ranking/region?rid=32&day=7&context=`;
         this.axios.get(source).then((res) => {
-          console.log(res);
+          // console.log(res);
           this.commenddata = res.data.data;
           //   console.log(this.showdata);
         });

@@ -1,5 +1,5 @@
 <template>
-  <div class="VideoItem" @click="$emit('videoitemClickFn', item.bvid)">
+  <div class="VideoItem" @click="clickfn">
     <div class="pic">
       <img :src="item.pic" :key="item.bvid" alt="" />
       <div class="imgbar">
@@ -49,6 +49,22 @@
 export default {
   props: ["item"],
   created() {},
+  methods: {
+    clickfn() {
+      if (
+        this.item.author == "哔哩哔哩番剧" ||
+        this.item.author == "哔哩哔哩电影" ||
+        this.item.author == "哔哩哔哩纪录片" ||
+        this.item.author == "迷影社" ||
+        this.item.author == "哔哩哔哩放映姬"
+      ) {
+        // console.log(this.item);
+        location.href = this.item.redirect_url;
+      } else {
+        this.$emit("videoitemClickFn", this.item.bvid);
+      }
+    },
+  },
 };
 </script>
 
@@ -60,7 +76,7 @@ export default {
     width: 100%;
     height: 28vw;
     background-color: #e6e6e6;
-        background-image: url('../assets/bgpic.png');
+    background-image: url("../assets/bgpic.png");
     background-repeat: no-repeat;
     background-position: center center;
     overflow: hidden;

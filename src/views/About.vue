@@ -74,7 +74,7 @@ export default {
       this.$router.push(`VideoMian?bvid=${a}`);
     },
     getshowdata(n) {
-      let source = `api/x/web-interface/ranking/region?rid=${n.query.query}`;
+      let source = `api/x/web-interface/ranking/region?rid=${n.query.query}&pn=0`;
       //  n.query
       if (this.$route.query.query == 0) {
         this.showdata = this.$store.state.homedata;

@@ -3,8 +3,8 @@
     <div class="sreachtop">
       <form action="/">
         <van-search
-        clear-trigger='always'
-        autofocus
+          clear-trigger="always"
+          autofocus
           v-model="keyword"
           show-action
           :placeholder="commedsreach.show_name"
@@ -37,12 +37,11 @@
         <p>历史搜索</p>
         <ul v-if="/^[\s\S]*.*[^\s][\s\S]*$/.test(hissreach)">
           <li @click="hotsreachclickFn" v-for="item in hisarr" :key="item.id">
-            <van-icon color="#ccc" size="20" class="icon" name="underway-o" /> 
-            <span>{{item }}</span>
+            <van-icon color="#ccc" size="20" class="icon" name="underway-o" />
+            <span>{{ item }}</span>
           </li>
-        <p class="cleanhis" @click="clickhis">清除历史记录</p>
+          <p class="cleanhis" @click="clickhis">清除历史记录</p>
         </ul>
-
       </div>
     </div>
 
@@ -161,6 +160,7 @@
       </van-tab>
       <van-tab :title="`番剧(${alldata.top_tlist.media_bangumi})`">
         <SreachMediaBangumiList
+          v-if="alldata.top_tlist.media_bangumi"
           :keyword="$route.query.keyword"
         ></SreachMediaBangumiList>
         <Footer :bool="alldata.top_tlist.media_bangumi"></Footer>
@@ -171,11 +171,17 @@
           alldata.top_tlist.bili_user > 99 ? '99+' : alldata.top_tlist.bili_user
         })`"
       >
-        <SreachUPerList :keyword="$route.query.keyword"></SreachUPerList>
+        <SreachUPerList
+          v-if="alldata.top_tlist.bili_user"
+          :keyword="$route.query.keyword"
+        ></SreachUPerList>
         <Footer :bool="alldata.top_tlist.bili_user"></Footer>
       </van-tab>
       <van-tab :title="`影视(${alldata.top_tlist.media_ft})`">
-        <SreachMediaFtList :keyword="$route.query.keyword"></SreachMediaFtList>
+        <SreachMediaFtList
+          v-if="alldata.top_tlist.media_ft"
+          :keyword="$route.query.keyword"
+        ></SreachMediaFtList>
         <Footer :bool="alldata.top_tlist.media_ft"></Footer>
       </van-tab>
     </van-tabs>
@@ -258,7 +264,7 @@ export default {
         this.hissreach += `:=:${this.keyword}`;
         // console.log(this.$cookies);
         this.$cookies.set("hissreach", this.hissreach);
-        console.log(this.$cookies.get("hissreach"));
+        // console.log(this.$cookies.get("hissreach"));
       }
 
       if (this.keyword == "") {
@@ -274,7 +280,7 @@ export default {
     keyword(n) {
       if (this.$cookies.get("hissreach")) {
         this.hissreach = this.$cookies.get("hissreach");
-        console.log(this.hissreach);
+        // console.log(this.hissreach);
       }
       this.filterShow = false;
       if (n != "") {
@@ -282,6 +288,12 @@ export default {
         this.axios.get(source).then((res) => {
           this.sreachsug = res.data;
         });
+      }
+    },
+    $route: function (n) {
+      // console.log(1111);
+      if (n.name == "Sreach") {
+        location.reload([true]);
       }
     },
   },
@@ -301,7 +313,7 @@ export default {
     let source2 = `http://s.search.bilibili.com/main/hotword`;
     this.axios.get(source2).then((res) => {
       this.hotsreach = res.data.list;
-      console.log(this.hotsreach);
+      // console.log(this.hotsreach);
     });
   },
 };
@@ -347,10 +359,10 @@ export default {
   }
   .hitsreach {
     background-color: #fff;
-    p{
+    p {
       text-align: left;
-      padding:12px 0 20px 20px;
-color: #999999;
+      padding: 12px 0 20px 20px;
+      color: #999999;
     }
     ul {
       list-style: none;
@@ -367,18 +379,18 @@ color: #999999;
           left: 0;
           line-height: 47px;
         }
-        span{
+        span {
           position: absolute;
           left: 30px;
         }
       }
     }
-    .cleanhis{
-    text-align: center;
-    display: block;
-    color: #999999;
- margin: 0;
- padding:12px 0 20px 0;
+    .cleanhis {
+      text-align: center;
+      display: block;
+      color: #999999;
+      margin: 0;
+      padding: 12px 0 20px 0;
     }
   }
   .hotsreach {

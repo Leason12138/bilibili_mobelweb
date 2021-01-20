@@ -239,9 +239,9 @@ export default {
       this.url = [];
       this.$axios.get(`api/x/web-interface/view?bvid=${n}`).then((res) => {
         this.showdata = res.data;
-        console.log(this.showdata);
+        // console.log(this.showdata);
         this.avid = res.data.data.aid;
-        console.log(this.avid);
+        // console.log(this.avid);
         this.getreplydata();
       });
 
@@ -254,7 +254,8 @@ export default {
         });
     },
     getCidDataInVideoMain: function (n) {
-      console.log(n);
+      // console.log(n);
+      n;
       // this.$axios
       //   .get(`api/x/player/playurl?bvid=${n}&cid=${n}`)
       //   .then((res) => {
@@ -264,6 +265,7 @@ export default {
   },
   watch: {
     $route: function (n) {
+      this.isVideoShow = true;
       this.showdata = {};
       this.recommendeddata = {};
       if (n.query.bvid) {
@@ -278,7 +280,6 @@ export default {
       let n = this.$route.query.bvid;
       this.getShowDataInVideoMain(n);
       this.getCidDataInVideoMain(n);
-
       //   this.getVideoAddInVideoMain(n,this.cid);
     }
   },
